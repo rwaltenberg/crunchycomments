@@ -1,3 +1,5 @@
 export default defineBackground(() => {
-  console.log('Hello background!', { id: browser.runtime.id });
+  browser.webNavigation.onHistoryStateUpdated.addListener((details) => {
+    browser.tabs.sendMessage(details.tabId, { action: 'onHistoryStateUpdated', details });
+  });
 });

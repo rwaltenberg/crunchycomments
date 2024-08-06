@@ -1,8 +1,8 @@
 {
-  "name": "wxt-starter",
-  "description": "manifest.json description",
+  "name": "crunchy-comments",
+  "description": "Bring back comments to your series",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -17,5 +17,8 @@
   "devDependencies": {
     "typescript": "^5.5.4",
     "wxt": "^0.19.1"
+  },
+  "dependencies": {
+    "wait-for-element": "^1.0.2"
   }
 }
