@@ -11,14 +11,16 @@
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
-    "compile": "tsc --noEmit",
+    "compile": "vue-tsc --noEmit",
     "postinstall": "wxt prepare"
   },
-  "devDependencies": {
-    "typescript": "^5.5.4",
-    "wxt": "^0.19.1"
-  },
   "dependencies": {
-    "wait-for-element": "^1.0.2"
+    "vue": "^3.4.34"
+  },
+  "devDependencies": {
+    "@wxt-dev/module-vue": "^1.0.0",
+    "typescript": "^5.5.4",
+    "vue-tsc": "^2.0.29",
+    "wxt": "^0.19.1"
   }
 }
