@@ -5,6 +5,11 @@ export default defineContentScript({
   main() {
     async function setup () {
       const [, lang = 'en-us', code] = /^\/(?:(\D+)\/)?watch\/([^/]+)\/.*/.exec(location.pathname) || []
+
+      if (!code) {
+        return
+      }
+
       const identifier = `${code}:${lang}`
 
       const container = await waitForElement('.erc-current-media-info')
