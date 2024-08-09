@@ -6,7 +6,7 @@ export const COLORED_ICONS = {
   '128': '/icon/128.png'
 }
 
-export const GREY_ICONS = {
+export const GRAY_ICONS = {
   '16': '/icon/16-grey.png',
   '32': '/icon/32-grey.png',
   '48': '/icon/48-grey.png',
