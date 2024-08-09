@@ -4,7 +4,7 @@ export default defineContentScript({
   matches: ['*://*.crunchyroll.com/*'],
   main() {
     async function setup () {
-      const [, lang = 'en-us', code] = /^\/(?:(\D+)\/)?watch\/([^/]+)\/.*/.exec(location.pathname) || []
+      const [, lang = 'en-us', code] = matchWatchUrl(location.href) ?? []
 
       if (!code) {
         return
@@ -40,9 +40,11 @@ export default defineContentScript({
     }
 
     browser.runtime.onMessage.addListener(({ action }) => {
-      if (action === 'onHistoryStateUpdated') {
+      if (action === 'onTabUpdated') {
         setup()
       }
     })
+
+    setup()
   }
 });
