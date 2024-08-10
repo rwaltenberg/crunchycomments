@@ -8,7 +8,6 @@ export default defineConfig({
       default_icon: GRAY_ICONS,
       default_title: 'CrunchyComments'
     },
-    permissions: ['webNavigation'],
     name: 'CrunchyComments'
   }
 });
