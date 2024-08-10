@@ -2,9 +2,11 @@ import { COLORED_ICONS, GRAY_ICONS } from "@/utils/icons";
 import { isWatchUrl } from "@/utils/watch-url";
 
 export default defineBackground(() => {
+  const browserAction = browser.action ?? browser.browserAction;
+
   function updateBrowserAction({ url }: { url?: string} = {}) {
-    browser.action.setIcon({ path: url && isWatchUrl(url) ? COLORED_ICONS : GRAY_ICONS });
-    browser.action.setTitle({ title: url && isWatchUrl(url) ? 'CrunchyComments: You can comment below the video :)' : 'CrunchyComments: Please navigate to a Crunchyroll video page' });
+    browserAction.setIcon({ path: url && isWatchUrl(url) ? COLORED_ICONS : GRAY_ICONS });
+    browserAction.setTitle({ title: url && isWatchUrl(url) ? 'CrunchyComments: You can comment below the video :)' : 'CrunchyComments: Please navigate to a Crunchyroll video page' });
   }
 
   browser.tabs.onActivated.addListener(async ({ tabId }) => {
