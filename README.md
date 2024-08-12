@@ -1,3 +1,9 @@
+[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/lfcgebliknnkfakgodekfhgmcnicokcc?logo=google-chrome&logoColor=%23FFFFFF&label=Chrome%20Extension&labelColor=%234285F4
+)](https://chromewebstore.google.com/detail/crunchycomments/lfcgebliknnkfakgodekfhgmcnicokcc)
+[![Mozilla Add-on Version](https://img.shields.io/amo/v/comments-for-crunchyroll?logo=firefox&logoColor=%23FFFFFF&label=Firefox%20Add-on&labelColor=%23ff7139
+)](https://addons.mozilla.org/pt-BR/firefox/addon/comments-for-crunchyroll/)
+
+
 # CrunchyComments
 
 Bring back comments to your series and enhance your Crunchyroll experience with CrunchyComments! This Chrome and Firefox extension integrates a comment section powered by Disqus below each episode on Crunchyroll, allowing you to dive into discussions, share your thoughts, and connect with fellow anime fans directly on the Crunchyroll platform.
