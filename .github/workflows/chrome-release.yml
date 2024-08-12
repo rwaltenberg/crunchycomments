@@ -1,0 +1,46 @@
+name: Release to Chrome Store
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release-to-chrome:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get latest release
+        id: get_release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const latestRelease = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const tagName = latestRelease.data.tag_name;
+            return tagName.startsWith('v') ? tagName.substring(1) : tagName;
+          result-encoding: string
+
+      - name: Download Chrome Artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow_search: true
+          search_artifacts: true
+          branch: ${{ github.ref }}
+          name: crunchy-comments-${{ steps.get_release.outputs.result }}
+          path: ./artifacts
+
+      - name: Publish to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v5.0.0
+        with:
+          file-path: ./artifacts/crunchy-comments-${{ steps.get_release.outputs.result }}-chrome.zip
+          glob: true
+          extension-id: ${{ vars.CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}

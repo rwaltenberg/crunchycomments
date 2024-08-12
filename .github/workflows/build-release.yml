@@ -1,0 +1,75 @@
+name: Build and Release
+
+on:
+  workflow_call:
+    inputs:
+      release-type:
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          npx npm version ${{ inputs.release-type }} -m "chore: bump version to %s"
+          echo "version=$(cat package.json | jq -r .version)" >> $GITHUB_OUTPUT
+
+      - name: Push changes and create tag
+        run: git push --follow-tags
+
+      - name: Build and Zip Chrome Extension
+        run: npm run zip
+
+      - name: Build and Zip Firefox Extension
+        run: npm run zip:firefox
+
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v5
+        with:
+          mode: 'COMMIT'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.bump_version.outputs.version }}
+          body: ${{steps.github_release.outputs.changelog}}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            ./.output/crunchy-comments-${{ steps.bump_version.outputs.version }}-chrome.zip
+            ./.output/crunchy-comments-${{ steps.bump_version.outputs.version }}-firefox.zip
+            ./.output/crunchy-comments-${{ steps.bump_version.outputs.version }}-sources.zip
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: crunchy-comments-${{ steps.bump_version.outputs.version }}
+          path: ./.output/*.zip
