@@ -19,12 +19,12 @@ Bring back comments to your series and enhance your Crunchyroll experience with 
 
 ### Chrome
 
-1. Go to the Chrome Web Store and search for "Comments for Crunchyroll".
+1. Download the extension at the [Chrome Web Store](https://chromewebstore.google.com/detail/crunchycomments/lfcgebliknnkfakgodekfhgmcnicokcc).
 2. Click "Add to Chrome".
 
 ### Firefox
 
-1. Go to the Firefox Add-ons website and search for "Comments for Crunchyroll".
+1. Download the extension at the [Firefox Add-ons website](https://addons.mozilla.org/pt-BR/firefox/addon/comments-for-crunchyroll/).
 2. Click "Add to Firefox".
 
 ## Development
