@@ -1,12 +1,16 @@
 import waitForElement from '@/utils/wait-for-element'
+import { localStorage } from '@/utils/typed-storage'
+
+const IFRAME_ID = 'crunchycomments'
 
 export default defineContentScript({
   matches: ['*://*.crunchyroll.com/*'],
   main() {
     async function setup () {
       const [, lang = 'en-us', code] = matchWatchUrl(location.href) ?? []
+      const { isEnabled } = await localStorage.get({ isEnabled: true })
 
-      if (!code) {
+      if (!code || !isEnabled) {
         return
       }
 
@@ -15,15 +19,19 @@ export default defineContentScript({
       const container = await waitForElement('.erc-current-media-info')
       const title = container.querySelector('h1.title')?.textContent ?? ''
 
-      let iframe = container.querySelector('#crunchycomments') as HTMLIFrameElement | undefined
+      let iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement | null
       const iframeSrc = `https://crunchycomments.onrender.com/?title=${encodeURIComponent(title)}&identifier=${identifier}`
 
       if (iframe) {
+        if (iframe.src === iframeSrc) {
+          return
+        }
+
         container.removeChild(iframe)
-      } 
+      }
 
       iframe = document.createElement('iframe')
-      iframe.id = 'crunchycomments'
+      iframe.id = IFRAME_ID
       iframe.src = iframeSrc
       iframe.style.width = '100%'
       iframe.style.border = 'none'
@@ -40,8 +48,13 @@ export default defineContentScript({
     }
 
     browser.runtime.onMessage.addListener(({ action }) => {
-      if (action === 'onTabUpdated') {
+      if (action === 'ccomm::onEnabled') {
+        console.log('ccomm::onEnabled')
         setup()
+      } else if (action === 'ccomm::onDisabled') {
+        console.log('ccomm::onDisabled')
+        const iframe = document.getElementById(IFRAME_ID)
+        iframe?.parentElement?.removeChild(iframe)
       }
     })
 

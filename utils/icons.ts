@@ -13,3 +13,11 @@ export const GRAY_ICONS = {
   '96': '/icon/gray96.png',
   '128': '/icon/gray.png'
 }
+
+export const DISABLED_ICONS = {
+  '16': '/icon/disabled16.png',
+  '32': '/icon/disabled32.png',
+  '48': '/icon/disabled48.png',
+  '96': '/icon/disabled96.png',
+  '128': '/icon/disabled.png'
+}

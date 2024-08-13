@@ -8,6 +8,9 @@ export default defineConfig({
       default_icon: GRAY_ICONS,
       default_title: 'CrunchyComments'
     },
-    name: 'CrunchyComments - Comments for Crunchyroll'
+    name: 'CrunchyComments - Comments for Crunchyroll',
+    permissions: [
+      'storage'
+    ]
   }
 });
